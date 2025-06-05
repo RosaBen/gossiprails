@@ -10,13 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_05_211708) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_05_213141) do
   create_table "cities", force: :cascade do |t|
     t.string "name"
     t.string "zip_code"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name", "zip_code"], name: "index_cities_on_name_and_zip_code", unique: true
+  end
+
+  create_table "gossips", force: :cascade do |t|
+    t.string "title"
+    t.text "content"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_gossips_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

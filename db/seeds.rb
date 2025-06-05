@@ -7,6 +7,7 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+require "faker"
 
 puts "Nettoyage des données..."
 ActiveRecord::Base.connection.execute("PRAGMA foreign_keys = OFF")
@@ -18,6 +19,7 @@ ActiveRecord::Base.connection.execute("DELETE FROM sqlite_sequence WHERE name='c
 
 users = []
 cities =[]
+gossips = []
 
 puts "Ajout des villes..."
 10.times do
@@ -36,5 +38,14 @@ puts "Ajout des utilisateurs.."
   description: Faker::Lorem.paragraph(sentence_count: 2),
   age: rand(18..65),
   city_id: cities.sample.id
+  )
+end
+
+puts "Ajout des gossips..."
+20.times do
+  gossips.push Gossip.create!(
+    title: Faker::Lorem.sentence(word_count: 3),
+    content: Faker::Lorem.paragraph(sentence_count: 2),
+    user_id: users.sample.id
   )
 end
