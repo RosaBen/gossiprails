@@ -11,18 +11,30 @@
 puts "Nettoyage des données..."
 ActiveRecord::Base.connection.execute("PRAGMA foreign_keys = OFF")
 User.delete_all
+City.delete_all
 ActiveRecord::Base.connection.execute("PRAGMA foreign_keys = ON")
 ActiveRecord::Base.connection.execute("DELETE FROM sqlite_sequence WHERE name='users'")
+ActiveRecord::Base.connection.execute("DELETE FROM sqlite_sequence WHERE name='cities'")
 
 users = []
+cities =[]
+
+puts "Ajout des villes..."
+10.times do
+  cities.push City.create!(
+    name: Faker::Address.city,
+    zip_code: Faker::Address.zip_code
+  )
+end
 
 puts "Ajout des utilisateurs.."
-5.times do
+10.times do
   users.push User.create!(
   last_name: Faker::Name.last_name,
   first_name: Faker::Name.first_name,
   email: Faker::Internet.unique.email,
   description: Faker::Lorem.paragraph(sentence_count: 2),
-  age: rand(18..65)
+  age: rand(18..65),
+  city_id: cities.sample.id
   )
 end
